@@ -1,0 +1,66 @@
+{
+  "PA-001": [
+    {
+      "componente": "SA-010",
+      "qtd": 1
+    },
+    {
+      "componente": "SA-020",
+      "qtd": 2
+    },
+    {
+      "componente": "MP-300",
+      "qtd": 1
+    },
+    {
+      "componente": "MP-301",
+      "qtd": 1
+    }
+  ],
+  "PA-002": [
+    {
+      "componente": "SA-010",
+      "qtd": 1
+    },
+    {
+      "componente": "SA-020",
+      "qtd": 2
+    },
+    {
+      "componente": "MP-300",
+      "qtd": 1
+    },
+    {
+      "componente": "MP-301",
+      "qtd": 1
+    },
+    {
+      "componente": "MP-302",
+      "qtd": 1
+    }
+  ],
+  "SA-010": [
+    {
+      "componente": "MP-100",
+      "qtd": 3
+    },
+    {
+      "componente": "MP-101",
+      "qtd": 0.5
+    }
+  ],
+  "SA-020": [
+    {
+      "componente": "MP-200",
+      "qtd": 1
+    },
+    {
+      "componente": "MP-201",
+      "qtd": 36
+    },
+    {
+      "componente": "MP-202",
+      "qtd": 1
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "CT-01": {
+    "nome": "Soldagem de quadros",
+    "capacidade": 40.0,
+    "custo_hora": 40.0
+  },
+  "CT-02": {
+    "nome": "Montagem de rodas",
+    "capacidade": 40.0,
+    "custo_hora": 36.0
+  },
+  "CT-03": {
+    "nome": "Montagem final",
+    "capacidade": 16.0,
+    "custo_hora": 40.0
+  }
+}
