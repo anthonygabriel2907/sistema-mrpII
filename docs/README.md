@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 ## Como executar
 
-Dentro da pasta `MRP2_PedalForte`:
+Dentro da pasta `sistema-mrpII`:
 
 ```
 python3 main.py
