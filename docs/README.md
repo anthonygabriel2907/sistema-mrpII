@@ -1,6 +1,6 @@
 # MRP II - Pedal Forte Bicicletas
 
-Trabalho 2 da disciplina de Programação em Python (CEFET-MG Divinópolis,
+Trabalho 2 da disciplina de Programação em Python (UFCI-MG Divinópolis,
 Engenharia de Computação). Sistema em modo texto que faz o planejamento da
 produção (MPS, MRP, CRP, custo padrão) e a gestão de estoques de uma fábrica
 fictícia de bicicletas.
