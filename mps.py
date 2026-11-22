@@ -2,6 +2,7 @@ import persistencia
 import utils
 
 
+# mostra o MPS das 8 semanas
 def exibir_mps(dados):
     utils.titulo("PLANO MESTRE DE PRODUCAO (MPS)")
     if len(dados["mps"]) == 0:
@@ -19,16 +20,19 @@ def exibir_mps(dados):
         print(texto + "   " + dados["itens"][codigo]["descricao"])
 
 
+# digita a demanda das 8 semanas de um produto
 def cadastrar_mps(dados):
     utils.titulo("CADASTRAR / ALTERAR MPS")
     codigo = utils.ler_texto("Codigo do produto acabado: ").upper()
     if codigo not in dados["itens"]:
         print("ERRO: item nao encontrado.")
         return
+    # o MPS so tem produto acabado
     if dados["itens"][codigo]["tipo"] != "PA":
         print("ERRO: o MPS so aceita produtos acabados (PA).")
         return
 
+    # se ainda nao tem MPS comeca tudo com zero
     atual = dados["mps"].get(codigo, [0] * utils.SEMANAS)
     novo = []
     print("Demanda por semana (Enter mantem o valor entre colchetes).")
@@ -42,6 +46,7 @@ def cadastrar_mps(dados):
     print("MPS de " + codigo + " salvo. Execute o MRP novamente.")
 
 
+# muda a demanda de uma semana so
 def alterar_semana(dados):
     utils.titulo("ALTERAR UMA SEMANA DO MPS")
     codigo = utils.ler_texto("Codigo do produto acabado: ").upper()
@@ -51,6 +56,7 @@ def alterar_semana(dados):
     semana = utils.ler_inteiro("Semana (1 a " + str(utils.SEMANAS) + "): ",
                                minimo=1, maximo=utils.SEMANAS)
     print("Demanda atual: " + str(dados["mps"][codigo][semana - 1]))
+    # a semana 1 fica na posicao 0 da lista
     dados["mps"][codigo][semana - 1] = utils.ler_inteiro(
         "Nova demanda: ", minimo=0)
     persistencia.salvar_tudo(dados)

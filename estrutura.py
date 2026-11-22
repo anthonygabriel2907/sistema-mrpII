@@ -11,6 +11,7 @@ def pode_ser_componente(tipo_pai, tipo_filho):
     return False
 
 
+# coloca um componente na estrutura de um item
 def cadastrar_componente(dados):
     utils.titulo("CADASTRO DE ESTRUTURA (BOM)")
     pai = utils.ler_texto("Codigo do item pai: ").upper()
@@ -18,6 +19,7 @@ def cadastrar_componente(dados):
         print("ERRO: item pai nao encontrado.")
         return
     tipo_pai = dados["itens"][pai]["tipo"]
+    # materia-prima nao tem estrutura
     if tipo_pai == "MP":
         print("ERRO: materia-prima nao possui estrutura (RN03).")
         return
@@ -36,6 +38,7 @@ def cadastrar_componente(dados):
 
     if pai not in dados["estrutura"]:
         dados["estrutura"][pai] = []
+    # se o componente ja esta na lista, so troca a quantidade
     for comp in dados["estrutura"][pai]:
         if comp["componente"] == filho:
             comp["qtd"] = qtd
@@ -47,6 +50,7 @@ def cadastrar_componente(dados):
     print("Componente " + filho + " adicionado em " + pai + ".")
 
 
+# tira um componente da estrutura
 def remover_componente(dados):
     utils.titulo("REMOVER COMPONENTE DA ESTRUTURA")
     pai = utils.ler_texto("Codigo do item pai: ").upper()
@@ -54,6 +58,7 @@ def remover_componente(dados):
         print("ERRO: esse item nao tem estrutura cadastrada.")
         return
     filho = utils.ler_texto("Codigo do componente: ").upper()
+    # procura o componente na lista pra remover
     for comp in dados["estrutura"][pai]:
         if comp["componente"] == filho:
             dados["estrutura"][pai].remove(comp)
@@ -74,6 +79,7 @@ def mostrar_arvore(dados, codigo, prefixo, nivel, niveis):
         comp = filhos[i]
         cod_filho = comp["componente"]
         item = dados["itens"][cod_filho]
+        # o ultimo filho usa um conector diferente
         if i == len(filhos) - 1:
             conector = "└── "
             novo_prefixo = prefixo + "    "
@@ -82,6 +88,7 @@ def mostrar_arvore(dados, codigo, prefixo, nivel, niveis):
             novo_prefixo = prefixo + "│   "
 
         texto = prefixo + conector + cod_filho + " " + item["descricao"] + " "
+        # completa com pontos ate a coluna da quantidade
         pontos = "." * max(2, 52 - len(texto))
         print(texto + pontos + " " + utils.formatar_numero(comp["qtd"])
               + " " + item["unidade"])
@@ -93,6 +100,7 @@ def mostrar_arvore(dados, codigo, prefixo, nivel, niveis):
         mostrar_arvore(dados, cod_filho, novo_prefixo, nivel + 1, niveis)
 
 
+# mostra a arvore da estrutura de um produto
 def exibir_estrutura(dados):
     utils.titulo("ESTRUTURA DE PRODUTO (EXPLOSAO DA BOM)")
     codigo = utils.ler_texto("Codigo do produto: ").upper()
@@ -104,6 +112,7 @@ def exibir_estrutura(dados):
         return
 
     print(codigo + " " + dados["itens"][codigo]["descricao"])
+    # guarda os itens de cada nivel pro resumo do final
     niveis = {}
     mostrar_arvore(dados, codigo, "", 1, niveis)
 

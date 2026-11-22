@@ -6,10 +6,12 @@ import persistencia
 import utils
 
 
+# gera o csv da posicao de estoque
 def exportar_estoque(dados):
     os.makedirs(persistencia.PASTA_SAIDA, exist_ok=True)
     caminho = os.path.join(persistencia.PASTA_SAIDA, "posicao_estoque.csv")
     with open(caminho, "w", encoding="utf-8", newline="") as arquivo:
+        # separador ; pra abrir direto no excel
         escritor = csv.writer(arquivo, delimiter=";")
         escritor.writerow(["codigo", "descricao", "tipo", "unidade", "saldo",
                            "estoque_seguranca", "situacao"])
@@ -26,10 +28,12 @@ def exportar_estoque(dados):
     print("Posicao de estoque exportada em: " + caminho)
 
 
+# gera o csv da lista de ordens
 def exportar_ordens(dados):
     os.makedirs(persistencia.PASTA_SAIDA, exist_ok=True)
     caminho = os.path.join(persistencia.PASTA_SAIDA, "lista_ordens.csv")
     with open(caminho, "w", encoding="utf-8", newline="") as arquivo:
+        # separador ; pra abrir direto no excel
         escritor = csv.writer(arquivo, delimiter=";")
         escritor.writerow(["ordem", "tipo", "item", "descricao", "quantidade",
                            "semana_liberacao", "semana_entrega", "status"])

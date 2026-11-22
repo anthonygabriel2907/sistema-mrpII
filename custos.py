@@ -1,6 +1,7 @@
 import utils
 
 
+# tempo do roteiro vezes o custo-hora do centro
 def custo_mao_de_obra(dados, codigo):
     roteiro = dados["roteiros"].get(codigo)
     if roteiro is None:
@@ -24,6 +25,7 @@ def custo_unitario(dados, codigo):
     return total
 
 
+# mostra o detalhamento do custo de um item
 def mostrar_custo(dados):
     utils.titulo("CUSTO PADRAO DE UM ITEM")
     codigo = utils.ler_texto("Codigo do item fabricado: ").upper()
@@ -67,6 +69,7 @@ def mostrar_custo(dados):
           + utils.formatar_dinheiro(custo_unitario(dados, codigo)))
 
 
+# lista o custo de todos os itens fabricados
 def listar_custos(dados):
     utils.titulo("CUSTO PADRAO DOS ITENS FABRICADOS")
     print("{:<8}{:<32}{:>14}".format("Item", "Descricao", "Custo (R$)"))

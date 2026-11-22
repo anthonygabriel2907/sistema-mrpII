@@ -4,6 +4,7 @@ import persistencia
 import utils
 
 
+# necessidade bruta das 8 semanas de um item
 def calcular_necessidade_bruta(dados, codigo):
     nb = [0] * utils.SEMANAS
     item = dados["itens"][codigo]
@@ -42,6 +43,7 @@ def calcular_recebimentos(dados, codigo):
     return rp
 
 
+# faz o registro MRP de um item
 def calcular_item(dados, codigo, excecoes):
     item = dados["itens"][codigo]
     nb = calcular_necessidade_bruta(dados, codigo)
@@ -53,10 +55,12 @@ def calcular_item(dados, codigo, excecoes):
     else:
         tipo_ordem = "OP"
 
+    # uma lista pra cada linha do registro, com uma posicao por semana
     ep = []
     nl = []
     rpl = []
     lp = [0] * utils.SEMANAS
+    # na semana 1 o estoque anterior e o saldo atual
     estoque_anterior = saldo
 
     for i in range(utils.SEMANAS):
@@ -104,6 +108,7 @@ def calcular_item(dados, codigo, excecoes):
     return registro
 
 
+# roda o MRP pra todos os itens
 def executar_mrp(dados):
     utils.titulo("EXECUCAO DO MRP")
     # RN08: apaga as ordens planejadas para recalcular
@@ -148,6 +153,7 @@ def executar_mrp(dados):
             print("  " + exc["mensagem"])
 
 
+# imprime uma linha do registro com as 8 semanas
 def imprimir_linha(nome, valores):
     texto = "{:<22}".format(nome)
     for valor in valores:
@@ -155,6 +161,7 @@ def imprimir_linha(nome, valores):
     print(texto)
 
 
+# mostra o registro MRP de um item
 def mostrar_registro(dados):
     utils.titulo("REGISTRO MRP DE UM ITEM")
     codigo = utils.ler_texto("Codigo do item: ").upper()

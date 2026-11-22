@@ -2,6 +2,7 @@ import persistencia
 import utils
 
 
+# devolve o saldo, se nao achar devolve 0
 def saldo_do_item(dados, codigo):
     return dados["estoque"].get(codigo, 0)
 
@@ -16,6 +17,7 @@ def erro_de_saldo(dados, codigo, qtd):
     return ""
 
 
+# atualiza o saldo e anota no kardex
 def registrar_movimento(dados, codigo, tipo, qtd, documento, data):
     erro = erro_de_saldo(dados, codigo, qtd)
     if erro != "":
@@ -34,6 +36,7 @@ def registrar_movimento(dados, codigo, tipo, qtd, documento, data):
     return ""
 
 
+# entrada, saida ou ajuste de estoque
 def movimentar(dados):
     utils.titulo("MOVIMENTACAO DE ESTOQUE")
     codigo = utils.ler_texto("Codigo do item: ").upper()
@@ -43,6 +46,7 @@ def movimentar(dados):
     tipo = utils.ler_opcao("Tipo [E]ntrada [S]aida [A]juste: ",
                            ["E", "S", "A"])
 
+    # o ajuste pode ser positivo ou negativo
     if tipo == "A":
         qtd = utils.ler_decimal(
             "Quantidade do ajuste (negativa para diminuir): ")
@@ -53,6 +57,7 @@ def movimentar(dados):
     else:
         qtd = utils.ler_decimal("Quantidade: ", positivo=True)
         if tipo == "S":
+            # saida vira numero negativo
             qtd = -qtd
             nome_tipo = "SAIDA"
         else:
@@ -73,6 +78,7 @@ def movimentar(dados):
     avisar_estoque_baixo(dados, codigo)
 
 
+# avisa se o saldo esta abaixo do estoque de seguranca
 def avisar_estoque_baixo(dados, codigo):
     item = dados["itens"][codigo]
     saldo = saldo_do_item(dados, codigo)
@@ -83,6 +89,7 @@ def avisar_estoque_baixo(dados, codigo):
               + item["unidade"] + ").")
 
 
+# mostra o saldo de um item
 def consultar_saldo(dados):
     utils.titulo("CONSULTA DE SALDO")
     codigo = utils.ler_texto("Codigo do item: ").upper()
@@ -98,6 +105,7 @@ def consultar_saldo(dados):
     avisar_estoque_baixo(dados, codigo)
 
 
+# mostra o historico de movimentos de um item
 def mostrar_kardex(dados):
     utils.titulo("KARDEX")
     codigo = utils.ler_texto("Codigo do item: ").upper()
@@ -110,6 +118,7 @@ def mostrar_kardex(dados):
     print("Data        Tipo     Qtde   Saldo  Documento")
     achou = False
     for mov in dados["movimentos"]:
+        # pula os movimentos de outros itens
         if mov["item"] != codigo:
             continue
         achou = True
@@ -124,6 +133,7 @@ def mostrar_kardex(dados):
     avisar_estoque_baixo(dados, codigo)
 
 
+# lista o saldo de todos os itens
 def posicao_geral(dados):
     utils.titulo("POSICAO DE ESTOQUE")
     print("Codigo  Descricao                       Saldo  Est.Seg  Situacao")

@@ -5,6 +5,7 @@ import estoque
 import persistencia
 import utils
 
+# se nao tiver o matplotlib o resto do sistema continua funcionando
 try:
     import matplotlib.pyplot as plt
     TEM_MATPLOTLIB = True
@@ -12,6 +13,7 @@ except ImportError:
     TEM_MATPLOTLIB = False
 
 
+# avisa quando a biblioteca nao esta instalada
 def matplotlib_ok():
     if not TEM_MATPLOTLIB:
         print("ERRO: biblioteca matplotlib nao instalada. "
@@ -19,6 +21,7 @@ def matplotlib_ok():
     return TEM_MATPLOTLIB
 
 
+# salva o png na pasta saida e abre a janela
 def salvar_e_mostrar(nome_arquivo):
     os.makedirs(persistencia.PASTA_SAIDA, exist_ok=True)
     caminho = os.path.join(persistencia.PASTA_SAIDA, nome_arquivo)
@@ -29,6 +32,7 @@ def salvar_e_mostrar(nome_arquivo):
     plt.close()
 
 
+# barras com o saldo e o estoque de seguranca de cada item
 def grafico_estoque(dados):
     if not matplotlib_ok():
         return
@@ -42,6 +46,7 @@ def grafico_estoque(dados):
         saldos.append(estoque.saldo_do_item(dados, codigo))
         seguranca.append(dados["itens"][codigo]["estoque_seguranca"])
 
+    # posicao de cada item no eixo x, as duas barras ficam uma de cada lado
     posicoes = list(range(len(codigos)))
     esquerda = []
     direita = []
@@ -61,6 +66,7 @@ def grafico_estoque(dados):
     salvar_e_mostrar("grafico_posicao_estoque.png")
 
 
+# linha do estoque projetado do MRP
 def grafico_projetado(dados):
     if not matplotlib_ok():
         return
@@ -87,6 +93,7 @@ def grafico_projetado(dados):
     salvar_e_mostrar("grafico_estoque_projetado_" + codigo + ".png")
 
 
+# conta quantas OP e OC chegam em cada semana
 def grafico_ordens(dados):
     if not matplotlib_ok():
         return
@@ -115,6 +122,7 @@ def grafico_ordens(dados):
     salvar_e_mostrar("grafico_ordens_por_semana.png")
 
 
+# barras da carga, vermelho quando passa da capacidade
 def grafico_carga(dados):
     if not matplotlib_ok():
         return

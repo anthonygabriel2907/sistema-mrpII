@@ -11,6 +11,7 @@ import relatorios
 import utils
 
 
+# cada menu repete ate escolher voltar (0)
 def menu_cadastros(dados):
     while True:
         utils.titulo("CADASTROS")
@@ -116,6 +117,7 @@ def menu_mrp(dados):
             print("ERRO: opcao invalida.")
 
 
+# esse menu mostra a lista e depois pede a acao
 def menu_ordens(dados):
     while True:
         ordens.listar_ordens(dados)
@@ -194,6 +196,7 @@ def menu_graficos(dados):
             print("ERRO: opcao invalida.")
 
 
+# menu principal, chama os outros menus
 def menu_principal(dados):
     while True:
         utils.titulo("MRP II - PEDAL FORTE BICICLETAS")

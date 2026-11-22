@@ -2,13 +2,16 @@ import csv
 import json
 import os
 
+# pastas do projeto
 PASTA_BASE = os.path.dirname(os.path.abspath(__file__))
 PASTA_DADOS = os.path.join(PASTA_BASE, "data")
 PASTA_SAIDA = os.path.join(PASTA_BASE, "saida")
 
+# colunas do movimentos.csv
 CAMPOS_MOVIMENTO = ["data", "item", "tipo", "qtd", "saldo", "documento"]
 
 
+# le um json da pasta data, se nao existir usa o padrao
 def ler_json(nome, padrao):
     caminho = os.path.join(PASTA_DADOS, nome)
     if not os.path.exists(caminho):
@@ -21,6 +24,7 @@ def ler_json(nome, padrao):
         raise SystemExit(1)
 
 
+# grava num arquivo temporario antes, pra nao perder os dados se der erro
 def gravar_json(nome, conteudo):
     os.makedirs(PASTA_DADOS, exist_ok=True)
     caminho = os.path.join(PASTA_DADOS, nome)
@@ -30,6 +34,7 @@ def gravar_json(nome, conteudo):
     os.replace(temporario, caminho)
 
 
+# le o kardex do csv
 def ler_movimentos():
     caminho = os.path.join(PASTA_DADOS, "movimentos.csv")
     movimentos = []
@@ -47,6 +52,7 @@ def ler_movimentos():
     return movimentos
 
 
+# regrava o csv inteiro
 def gravar_movimentos(movimentos):
     os.makedirs(PASTA_DADOS, exist_ok=True)
     caminho = os.path.join(PASTA_DADOS, "movimentos.csv")
@@ -57,6 +63,7 @@ def gravar_movimentos(movimentos):
             escritor.writerow(mov)
 
 
+# le todos os arquivos e junta num dicionario so
 def carregar_tudo():
     dados = {}
     dados["itens"] = ler_json("itens.json", {})
@@ -73,6 +80,7 @@ def carregar_tudo():
     return dados
 
 
+# grava todos os arquivos de novo
 def salvar_tudo(dados):
     gravar_json("itens.json", dados["itens"])
     gravar_json("estrutura.json", dados["estrutura"])

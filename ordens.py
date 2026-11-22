@@ -3,8 +3,10 @@ import persistencia
 import utils
 
 
+# cria uma OP ou OC com numero sequencial
 def criar_ordem(dados, tipo, codigo, qtd, liberar, entregar):
     ordens = dados["ordens"]
+    # OP e OC tem contadores separados
     if tipo == "OP":
         numero = ordens["proximo_op"]
         ordens["proximo_op"] = numero + 1
@@ -12,6 +14,7 @@ def criar_ordem(dados, tipo, codigo, qtd, liberar, entregar):
         numero = ordens["proximo_oc"]
         ordens["proximo_oc"] = numero + 1
 
+    # dados da ordem
     ordem = {
         "numero": tipo + "-" + str(numero).zfill(4),
         "tipo": tipo,
@@ -28,6 +31,7 @@ def criar_ordem(dados, tipo, codigo, qtd, liberar, entregar):
     return ordem
 
 
+# procura a ordem pelo numero, se nao achar devolve None
 def buscar_ordem(dados, numero):
     for ordem in dados["ordens"]["lista"]:
         if ordem["numero"] == numero:
@@ -35,6 +39,7 @@ def buscar_ordem(dados, numero):
     return None
 
 
+# mostra a lista de ordens
 def listar_ordens(dados):
     data = dados["mrp"]["data"]
     if data == "":
@@ -64,8 +69,9 @@ def listar_ordens(dados):
               "liberacao antes da semana 1.")
 
 
+# planejada ou atrasada vira firme
 def firmar_ordem(dados):
-    numero = utils.ler_texto("Numero da ordem (ex.: OP-0011): ").upper()
+    numero = utils.ler_texto("Numero da ordem: ").upper()
     ordem = buscar_ordem(dados, numero)
     if ordem is None:
         print("ERRO: ordem nao encontrada.")
@@ -79,8 +85,9 @@ def firmar_ordem(dados):
     print("Ordem " + numero + " firmada.")
 
 
+# firme vira liberada
 def liberar_ordem(dados):
-    numero = utils.ler_texto("Numero da ordem (ex.: OP-0011): ").upper()
+    numero = utils.ler_texto("Numero da ordem: ").upper()
     ordem = buscar_ordem(dados, numero)
     if ordem is None:
         print("ERRO: ordem nao encontrada.")
@@ -94,6 +101,7 @@ def liberar_ordem(dados):
     print("Ordem " + numero + " liberada.")
 
 
+# da baixa nos componentes e da entrada no item produzido
 def apontar(dados, ordem):
     codigo = ordem["item"]
     componentes = dados["estrutura"].get(codigo, [])
@@ -133,8 +141,9 @@ def apontar(dados, ordem):
           + " no estoque.")
 
 
+# so OP liberada pode ser apontada
 def apontar_producao(dados):
-    numero = utils.ler_texto("Numero da OP (ex.: OP-0011): ").upper()
+    numero = utils.ler_texto("Numero da OP: ").upper()
     ordem = buscar_ordem(dados, numero)
     if ordem is None:
         print("ERRO: ordem nao encontrada.")
@@ -149,8 +158,9 @@ def apontar_producao(dados):
     apontar(dados, ordem)
 
 
+# encerra uma ordem liberada
 def encerrar_ordem(dados):
-    numero = utils.ler_texto("Numero da ordem (ex.: OC-0004): ").upper()
+    numero = utils.ler_texto("Numero da ordem: ").upper()
     ordem = buscar_ordem(dados, numero)
     if ordem is None:
         print("ERRO: ordem nao encontrada.")

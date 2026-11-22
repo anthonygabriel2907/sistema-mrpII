@@ -10,11 +10,12 @@ def centro_valido(codigo):
     return partes[1].isascii() and partes[1].isdigit() and len(partes[1]) == 2
 
 
+# cadastra um centro de trabalho
 def cadastrar_centro(dados):
     utils.titulo("CADASTRO DE CENTRO DE TRABALHO")
-    codigo = utils.ler_texto("Codigo (ex.: CT-01): ").upper()
+    codigo = utils.ler_texto("Codigo do centro: ").upper()
     if not centro_valido(codigo):
-        print("ERRO: codigo invalido. Use CT-NN (ex.: CT-01).")
+        print("ERRO: codigo invalido. Use o formato CT-NN.")
         return
     if codigo in dados["centros"]:
         print("ERRO: esse centro ja esta cadastrado.")
@@ -32,6 +33,7 @@ def cadastrar_centro(dados):
     print("Centro " + codigo + " cadastrado.")
 
 
+# mostra os centros cadastrados
 def listar_centros(dados):
     utils.titulo("CENTROS DE TRABALHO")
     if len(dados["centros"]) == 0:
@@ -47,6 +49,7 @@ def listar_centros(dados):
             utils.formatar_dinheiro(centro["custo_hora"])))
 
 
+# liga um item a um centro e ao tempo por unidade
 def definir_roteiro(dados):
     utils.titulo("ROTEIRO DE OPERACAO")
     codigo = utils.ler_texto("Codigo do item fabricado: ").upper()
@@ -66,6 +69,7 @@ def definir_roteiro(dados):
     print("Roteiro de " + codigo + " salvo.")
 
 
+# mostra os roteiros cadastrados
 def listar_roteiros(dados):
     utils.titulo("ROTEIROS")
     if len(dados["roteiros"]) == 0:
@@ -89,12 +93,14 @@ def calcular_carga(dados, centro):
         roteiro = dados["roteiros"].get(ordem["item"])
         if roteiro is None or roteiro["centro"] != centro:
             continue
+        # ordem atrasada conta na semana 1
         semana = max(1, ordem["liberar"])
         if semana <= utils.SEMANAS:
             carga[semana - 1] += ordem["qtd"] * roteiro["tempo"]
     return carga
 
 
+# monta o texto com as semanas de sobrecarga
 def texto_semanas(lista):
     if len(lista) == 1:
         return "na semana " + str(lista[0])
@@ -104,6 +110,7 @@ def texto_semanas(lista):
     return "nas semanas " + ", ".join(nomes[:-1]) + " e " + nomes[-1]
 
 
+# mostra carga x capacidade de cada centro
 def exibir_crp(dados):
     if len(dados["centros"]) == 0:
         print("Nenhum centro de trabalho cadastrado.")
@@ -119,8 +126,10 @@ def exibir_crp(dados):
         sobrecarga = []
         for i in range(utils.SEMANAS):
             percentual = carga[i] / centro["capacidade"] * 100
+            # cada # vale 10% da capacidade
             barra = "#" * int(round(percentual / 10))
             aviso = ""
+            # passou da capacidade
             if round(carga[i], 4) > centro["capacidade"]:
                 aviso = " SOBRECARGA"
                 sobrecarga.append(i + 1)

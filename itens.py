@@ -2,9 +2,10 @@ import persistencia
 import utils
 
 
+# cadastra um item novo
 def cadastrar_item(dados):
     utils.titulo("CADASTRO DE ITEM")
-    codigo = utils.ler_texto("Codigo (ex.: PA-001, SA-020, MP-201): ").upper()
+    codigo = utils.ler_texto("Codigo do item: ").upper()
     if not utils.codigo_valido(codigo):
         print("ERRO: codigo invalido. Use Tipo-Numero com 3 digitos.")
         return
@@ -12,11 +13,13 @@ def cadastrar_item(dados):
         print("ERRO: ja existe um item com o codigo " + codigo + ".")
         return
 
+    # o tipo vem das duas primeiras letras do codigo
     tipo = codigo[:2]
     print("Tipo do item: " + tipo)
     descricao = utils.ler_texto("Descricao: ")
-    unidade = utils.ler_texto("Unidade de medida (un, m, L, kg...): ")
+    unidade = utils.ler_texto("Unidade de medida: ")
 
+    # so materia-prima tem custo digitado, o resto e calculado pela estrutura
     custo = 0.0
     if tipo == "MP":
         custo = utils.ler_decimal("Custo unitario (R$): ", minimo=0)
@@ -27,6 +30,7 @@ def cadastrar_item(dados):
     seguranca = utils.ler_decimal("Estoque de seguranca: ", minimo=0)
     lote = utils.ler_decimal("Lote minimo: ", minimo=0)
 
+    # junta os dados do item
     item = {
         "codigo": codigo,
         "descricao": descricao,
@@ -38,11 +42,13 @@ def cadastrar_item(dados):
         "lote_minimo": lote,
     }
     dados["itens"][codigo] = item
+    # item novo comeca com saldo zero
     dados["estoque"][codigo] = 0
     persistencia.salvar_tudo(dados)
     print("Item " + codigo + " cadastrado com sucesso.")
 
 
+# mostra todos os itens numa tabela
 def listar_itens(dados):
     utils.titulo("LISTA DE ITENS")
     if len(dados["itens"]) == 0:
@@ -68,6 +74,7 @@ def listar_itens(dados):
             utils.formatar_numero(item["lote_minimo"])))
 
 
+# altera um item que ja existe
 def alterar_item(dados):
     utils.titulo("ALTERAR ITEM")
     codigo = utils.ler_texto("Codigo do item: ").upper()

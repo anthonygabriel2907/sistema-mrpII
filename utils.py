@@ -1,14 +1,18 @@
 import math
 from datetime import date, datetime
 
+# tipos de item: produto acabado, semiacabado e materia-prima
 TIPOS = ["PA", "SA", "MP"]
+# quantas semanas o planejamento tem
 SEMANAS = 8
 
 
+# imprime uma linha repetindo um caractere
 def linha(tamanho=50, caractere="-"):
     print(caractere * tamanho)
 
 
+# titulo entre duas linhas de =
 def titulo(texto):
     print()
     linha(50, "=")
@@ -16,6 +20,7 @@ def titulo(texto):
     linha(50, "=")
 
 
+# data de hoje no formato dd/mm/aaaa
 def hoje():
     return date.today().strftime("%d/%m/%Y")
 
@@ -27,14 +32,17 @@ def formatar_numero(valor):
     return str(round(valor, 2)).replace(".", ",")
 
 
+# dinheiro com 2 casas e virgula
 def formatar_dinheiro(valor):
     return "{:.2f}".format(valor).replace(".", ",")
 
 
+# horas com 1 casa e virgula
 def formatar_horas(valor):
     return "{:.1f}".format(valor).replace(".", ",")
 
 
+# vira S1, S2, S3...
 def semana_texto(numero):
     return "S" + str(numero)
 
@@ -50,6 +58,7 @@ def codigo_valido(codigo):
     return numero.isascii() and numero.isdigit() and len(numero) == 3
 
 
+# nao deixa o campo ficar vazio
 def ler_texto(mensagem):
     while True:
         texto = input(mensagem).strip()
@@ -58,6 +67,7 @@ def ler_texto(mensagem):
         print("ERRO: o campo nao pode ficar vazio.")
 
 
+# le um inteiro e confere o minimo e o maximo
 def ler_inteiro(mensagem, minimo=None, maximo=None, padrao=None):
     while True:
         texto = input(mensagem).strip()
@@ -77,6 +87,7 @@ def ler_inteiro(mensagem, minimo=None, maximo=None, padrao=None):
         return valor
 
 
+# igual ao inteiro, mas aceita virgula
 def ler_decimal(mensagem, minimo=None, positivo=False, padrao=None):
     while True:
         texto = input(mensagem).strip().replace(",", ".")
@@ -85,8 +96,9 @@ def ler_decimal(mensagem, minimo=None, positivo=False, padrao=None):
         try:
             valor = float(texto)
         except ValueError:
-            print("ERRO: digite um numero (exemplo: 10 ou 2,5).")
+            print("ERRO: digite um numero valido.")
             continue
+        # nao deixa passar nan nem infinito
         if not math.isfinite(valor):
             print("ERRO: numero invalido.")
             continue
@@ -99,6 +111,7 @@ def ler_decimal(mensagem, minimo=None, positivo=False, padrao=None):
         return valor
 
 
+# repete ate digitar uma das opcoes
 def ler_opcao(mensagem, validas):
     while True:
         texto = input(mensagem).strip().upper()
@@ -107,6 +120,7 @@ def ler_opcao(mensagem, validas):
         print("ERRO: opcao invalida. Escolha entre: " + ", ".join(validas))
 
 
+# se der enter usa a data de hoje
 def ler_data(mensagem):
     while True:
         texto = input(mensagem).strip()
