@@ -5,7 +5,7 @@ Engenharia de Computação). Sistema em modo texto que faz o planejamento da
 produção (MPS, MRP, CRP, custo padrão) e a gestão de estoques de uma fábrica
 fictícia de bicicletas.
 
-**Autor:** Anthony (GitHub: anthonygabriel2907)
+**Autor:** Anthony Gabriel Sotto Mayor Silva
 
 ## Requisitos
 
